@@ -58,7 +58,7 @@ const handleLogin = async(e) =>{
         <button type='submit' className='btn-primary'>Login</button>
 
   <p className='text-sm text-slate-700 mt-4'>Don't have an account? {""}
-    <Link className='text-teal-600 font-medium' to="/signUp">SignUp</Link>
+    <Link className='text-teal-600 underline font-medium' to="/signUp">SignUp</Link>
 
   </p>
       </form>
