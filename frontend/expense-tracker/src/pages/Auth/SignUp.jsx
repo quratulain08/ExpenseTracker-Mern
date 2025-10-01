@@ -1,36 +1,95 @@
-import React, { useState } from "react";
-import { Link, _useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/layout/AuthLayout";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext";
 
+import axiosInstance from "../../utils/axiosInstance";
+import { uploadImage } from "../../utils/uploadImage";
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, _setError] = useState("");
-  // const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+const { updateUser } = useContext(UserContext);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    console.log("SignUp form submitted");
     // let profileImageUrl = "";
 
     if (!fullName) {
-      _setError("Please enter your full name");
+      setError("Please enter your full name");
       return;
     }
     if (!validateEmail(email)) {
-      _setError("Please enter a valid email");
+      setError("Please enter a valid email");
       return;
     }
     if (!password) {
-      _setError("Please enter your password");
+      setError("Please enter your password");
       return;
     }
-    _setError("");
+    setError("");
+    console.log("Validation passed, making API call...");
     // 👉 TODO: Call your SignUp API here
+  try{ 
+    let profileImageUrl = "";
+if (profilePic) {
+  console.log("Uploading profile image...");
+  try {
+    const imageUploadRes = await uploadImage(profilePic);
+    profileImageUrl = imageUploadRes.imageUrl || "";
+    console.log("Image uploaded successfully:", profileImageUrl);
+  } catch (imageError) {
+    console.error("Image upload failed:", imageError);
+    setError("Failed to upload profile image. Please try again.");
+    return;
+  }
+}
+
+
+
+    const response = await axiosInstance.post(API_PATHS.Auth.REGISTER,{
+
+      fullName,
+
+      email,
+      password,
+      profileImageUrl
+
+  });
+  const{token, user } =response.data;
+
+ if (token) {
+  localStorage.setItem("accessToken", token); // ✅ match axiosInstance
+  updateUser(user);
+  navigate("/dashboard");
+
+  }}catch(err){
+    console.error("Signup error:", err);
+    console.log("Error response:", err.response);
+    console.log("Error data:", err.response?.data);
+    console.log("Error status:", err.response?.status);
+    console.log("Error config:", err.config);
+    
+    if(err.response && err.response.data && err.response.data.message){
+      setError(err.response.data.message);
+    } else if (err.response) {
+      setError(`Server error: ${err.response.status} - ${err.response.statusText}`);
+    } else if (err.request) {
+      setError("Network error: Unable to connect to server. Please check if the backend is running.");
+    } else {
+      setError(`Error: ${err.message}`);
+    }
+  }
+
+
   };
 
   return (

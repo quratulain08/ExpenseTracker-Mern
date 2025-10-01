@@ -7,6 +7,8 @@ const generateToken = (id) => {
 
 exports.registerUser = async (req, res) => {
     const { fullName, email, password, profileImageUrl } = req.body;
+    console.log("Registration request received:", { fullName, email, profileImageUrl });
+    
     if (!fullName || !email || !password) {
         return res.status(400).json({ message: 'Please provide all required fields' });
     }
@@ -24,13 +26,16 @@ exports.registerUser = async (req, res) => {
             profileImageUrl
         });
         
+        console.log("User created successfully:", user._id);
+        
         res.status(201).json({
             id: user._id,
             user,
             token: generateToken(user._id)
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error("Registration error:", error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 

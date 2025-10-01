@@ -9,10 +9,12 @@ import {
   import Home from './pages/Dashboard/Home'
   import Income from './pages/Dashboard/Income'
   import Expense from './pages/Dashboard/Expense'
+import UserProvider from './context/userProvider'
 
 
 const App = () => {
   return (
+    <UserProvider>
     <div >
       <Router>
         <Routes>
@@ -28,13 +30,14 @@ const App = () => {
       
       
        </div>
+       </UserProvider>
   )
 }
 
 export default App
 
 const Root = () => {
-  const isAuthenticated =!!localStorage.getItem("token");
+  const isAuthenticated =!!localStorage.getItem("accessToken");
 
   
   return isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />;
