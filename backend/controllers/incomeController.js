@@ -96,3 +96,24 @@ exports.downloadIncomeExcel = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// @desc    Upload income icon
+// @route   POST /api/v1/income/upload-icon
+// @access  Private
+exports.uploadIncomeIcon = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Cloudinary automatically handles the upload and returns the URL
+    const imageUrl = req.file.path;
+
+    res.status(200).json({
+      message: "Icon uploaded successfully",
+      imageUrl: imageUrl,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

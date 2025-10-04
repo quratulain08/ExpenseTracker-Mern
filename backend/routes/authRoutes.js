@@ -18,14 +18,23 @@ router.post("/login", loginUser);
 
 router.get("/user", protect, getUserInfo);
 
-router.post("/upload-image",upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-    }
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+// Public route for profile image upload (used during signup)
+router.post("/upload-image", upload.single('image'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
 
-    // If file is uploaded successfully
-     res.status(200).json({ imageUrl });
+        // Cloudinary automatically handles the upload and returns the URL
+        const imageUrl = req.file.path;
+
+        res.status(200).json({ 
+            message: 'Profile image uploaded successfully',
+            imageUrl: imageUrl 
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 });
 
 module.exports = router;

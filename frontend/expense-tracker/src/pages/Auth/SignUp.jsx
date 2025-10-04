@@ -8,7 +8,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 
 import axiosInstance from "../../utils/axiosInstance";
-import { uploadImage } from "../../utils/uploadImage";
+import { uploadProfileImageToCloudinary } from "../../utils/uploadImage";
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -41,10 +41,9 @@ const { updateUser } = useContext(UserContext);
   try{ 
     let profileImageUrl = "";
 if (profilePic) {
-  console.log("Uploading profile image...");
+  console.log("Uploading profile image to Cloudinary...");
   try {
-    const imageUploadRes = await uploadImage(profilePic);
-    profileImageUrl = imageUploadRes.imageUrl || "";
+    profileImageUrl = await uploadProfileImageToCloudinary(profilePic);
     console.log("Image uploaded successfully:", profileImageUrl);
   } catch (imageError) {
     console.error("Image upload failed:", imageError);

@@ -18,7 +18,7 @@ const RecentIncome = ({ transactions, onSeeMore }) => {
 
         <div className='space-y-3'>
             {transactions?.length > 0 ? (
-                transactions.slice(0,4).map((item)=>(
+                transactions.slice(0,3).map((item)=>(
                     <TransactionInfoCard
                         key={item._id}
                         title={ item.source}

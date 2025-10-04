@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const validateEmail = (email) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(String(email).toLowerCase());
@@ -25,13 +27,38 @@ return fractionalPart ? `${formattedInteger}.${fractionalPart}` : formattedInteg
 
 
 
-export const prepareExpenseBarChartData = (data=[])=>{
-  console.log('Chart data input:', data);
+
+
+export const prepareIncomeBarChartData = (data=[])=>{
+  console.log('Income chart data input:', data);
+  if (!data || data.length === 0) {
+    console.log('No income data provided');
+    return [];
+  }
+  
   const chartData = data.map((item)=>({
-    category: item?.category || 'Unknown',
+    category: item?.source || 'Unknown Source', // Use category to match CustomBarChart
     amount: item?.amount || 0,
-    month: item?.category 
+    month: moment(item?.date).format("DD MMM") // Keep month for reference
   }));
-  console.log('Chart data output:', chartData);
+  
+  console.log('Income chart data output:', chartData);
   return chartData;
-};
+}
+
+export const prepareExpenseBarChartData = (data=[])=>{
+  console.log('Expense chart data input:', data);
+  if (!data || data.length === 0) {
+    console.log('No expense data provided');
+    return [];
+  }
+  
+  const chartData = data.map((item)=>({
+    category: item?.category || 'Unknown Category',
+    amount: item?.amount || 0,
+    month: moment(item?.date).format("DD MMM")
+  }));
+  
+  console.log('Expense chart data output:', chartData);
+  return chartData;
+}
