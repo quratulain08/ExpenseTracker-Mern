@@ -45,18 +45,29 @@ const CustomBarChart = ({data}) => {
     <div className='bg-white mt-6'>
         <ResponsiveContainer width="100%" height={300}>
         <BarChart
-        data={data}>
+        data={data}
+        maxBarSize={80}
+        barCategoryGap="20%"
+        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
         <CartesianGrid stroke="none" />
-        <XAxis dataKey="category" tick={{fontSize:12, fill:'#555'}} stroke='none' />
+        <XAxis 
+          dataKey="category" 
+          tick={{fontSize:12, fill:'#555'}} 
+          stroke='none'
+          interval={0}
+          angle={data && data.length > 4 ? -45 : 0}
+          textAnchor={data && data.length > 4 ? 'end' : 'middle'}
+          height={data && data.length > 4 ? 80 : 60}
+        />
         <YAxis tick={{fontSize:12, fill:'#555'}} stroke='none' />
         <Tooltip content={CustomTooltip} />
 
         <Bar
         dataKey="amount"
         fill='#FF8042'
-        radius={[10,10,0,0]}
-        activeDot={{ r: 8, fill:"yellow"}}
-        activeStyle={{fill:"green"}}
+        radius={[8,8,0,0]}
+        maxBarSize={80}
         >
 
         {data.map((entry,index) => (

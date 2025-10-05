@@ -30,7 +30,7 @@ const ExpenseOverview = ({ transactions, onAddExpense }) => {
               </div>
               <div className='mt-10'>
                 {chartData && chartData.length > 0 ? (
-                  <div className='max-w-4xl mx-auto lg:max-w-3xl xl:max-w-4xl'>
+                  <div className='w-full max-w-5xl mx-auto'>
                     <CustomLineBarChart data ={chartData}  />
                   </div>
                 ) : (

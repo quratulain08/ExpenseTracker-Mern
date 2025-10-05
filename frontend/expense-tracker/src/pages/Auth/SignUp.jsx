@@ -100,10 +100,10 @@ if (profilePic) {
         </p>
 
         {/* Example form (you can style more) */}
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSignUp} className="space-y-6">
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Full Name"
               value={fullName}
@@ -127,11 +127,13 @@ if (profilePic) {
                 type="password"
               />
             </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm col-span-2 mb-2">{error}</p>}
 
-            <button type="submit" className="btn-primary">
-              Sign Up
-            </button>
+            <div className="col-span-2 mt-2">
+              <button type="submit" className="btn-primary w-full py-3 text-base font-semibold transition-all duration-200 hover:shadow-xl">
+                Sign Up
+              </button>
+            </div>
           </div>
         </form>
 

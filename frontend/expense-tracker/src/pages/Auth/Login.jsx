@@ -63,7 +63,7 @@ const handleLogin = async(e) =>{
        <h3 className='text-xl font-semibold text-black'> Welcome Back</h3>
        <p className='text-xs text-slate-700 mt-[5px] mb-6'>Login to your account</p>
       
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="space-y-4">
          <Input
         value = {email}
         onChange={({ target }) => setEmail(target.value)}
@@ -82,7 +82,7 @@ const handleLogin = async(e) =>{
         />
 
         {error && <p className='text-red-500 text-sm my-2'>{error}</p>}
-        <button type='submit' className='btn-primary'>Login</button>
+        <button type='submit' className='btn-primary w-full py-3 text-base font-semibold transition-all duration-200 hover:shadow-xl mt-6'>Login</button>
 
   <p className='text-sm text-slate-700 mt-4'>Don't have an account? {""}
     <Link className='text-teal-600 underline font-medium' to="/signUp">SignUp</Link>
