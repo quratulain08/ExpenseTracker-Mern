@@ -31,5 +31,5 @@ app.use("/api/v1/income", incomeRoutes);
 app.use("/api/v1/expense", expenseRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 
-// ✅ Export app for Vercel (no app.listen!)
-module.exports = app;
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
